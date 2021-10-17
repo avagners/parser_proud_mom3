@@ -1,13 +1,15 @@
 import requests
 from bs4 import BeautifulSoup
 import csv
+import lxml
 
 headers = {
 		'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36',
 		'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
 	}
 
-# ----------------------------------------------Сбор ссылок на карочки товаров в TXT--------------------------------------------------------- #
+
+# ----------------------------------Сбор ссылок на карочки товаров в TXT------------------------------------------ #
 def get_links_cards():
 	
 	cards_list_url = []
@@ -32,8 +34,8 @@ def get_links_cards():
 		for line in cards_list_url:
 			file.write(f'{line}\n')
 
-# -----------------------------------Сбор необходимых данных из карточек и сохранение их в CSV------------------------------------------------- #
 
+# ---------------------Сбор необходимых данных из карточек и сохранение их в CSV------------------------------------- #
 def get_data_from_cards():
 	with open('cards_list_url.txt') as file:
 
@@ -84,13 +86,13 @@ def get_data_from_cards():
 
 			data_dict.append(data)
 
-			with open('data.csv', 'w', newline = '', encoding='utf-8-sig') as file:
+			with open('data.csv', 'w', newline='', encoding='utf-8-sig') as file:
 				writer = csv.writer(file, delimiter=';')
 				writer.writerow(['Ссылка на товар', 'Артикул', 'Наименование', 'Цена', 'Описание', 'Размер', 'Фото'])
 				for item in data_dict:
-					writer.writerow( [item['Ссылка на товар'], item['Артикул'], item['Наименование'], item['Цена'], item['Описание'], item['Размер'], item['Фото']])
+					writer.writerow([item['Ссылка на товар'], item['Артикул'], item['Наименование'], item['Цена'], item['Описание'], item['Размер'], item['Фото']])
 
-# ----------------------------------------------Вызов функций---------------------------------------------------------- #
 
+# ---------------------------------------------Вызов функций-------------------------------------------------------- #
 get_links_cards()
 get_data_from_cards()
