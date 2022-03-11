@@ -10,8 +10,10 @@ headers = {
         }
 
 
-# --------------------Сбор ссылок на карочки товаров в TXT------------------ #
 def get_links_cards():
+    """
+    Сбор ссылок на карочки товаров в TXT
+    """
     cards_list_url = []
 
     for i in range(1, 17, 1):
@@ -32,8 +34,10 @@ def get_links_cards():
             file.write(f'{line}\n')
 
 
-# ---------Сбор необходимых данных из карточек и сохранение их в CSV-------- #
 def get_data_from_cards():
+    """
+    Сбор необходимых данных из карточек и сохранение их в CSV
+    """
     with open('cards_list_url.txt') as file:
 
         lines = [line.strip() for line in file.readlines()]
@@ -130,7 +134,6 @@ def get_data_from_cards():
                     ])
 
 
-# ----------------------------Вызов функций-------------------------------- #
 def main():
     get_links_cards()
     # get_data_from_cards()
