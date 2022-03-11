@@ -22,12 +22,16 @@ def get_links_cards():
         result = req.content
 
         soup = BeautifulSoup(result, 'lxml')
-        cards = soup.find_all(class_='product-image')
+        cards = soup.find_all("form", action="/cart_items")
+
+        print(url)
+        print(f'Кол-во карточек: {len(cards)}')
 
         for card in cards:
-            card_page_url = card.get('href')
-            cards_list_url.append('https://www.proudmom.ru' + card_page_url)
-            print(card_page_url)
+            product_id = card.get('data-product-id')
+            cards_list_url.append(
+                f'https://www.proudmom.ru/products_by_id/{product_id}.json'
+            )
 
     with open('cards_list_url.txt', 'a') as file:
         for line in cards_list_url:
