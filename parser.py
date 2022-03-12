@@ -177,7 +177,7 @@ def get_data_and_sav_csv():
 
 
 def main():
-    # get_data_json()
+    get_data_json()
     get_data_and_sav_csv()
 
 
