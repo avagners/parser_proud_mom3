@@ -4,3 +4,5 @@ cards_list_url.txt
 venv
 .vscode
 dev.py
+reuslt/
+data.json
