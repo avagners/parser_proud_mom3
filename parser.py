@@ -13,7 +13,11 @@ headers = {'user-agent': user_agent}
 
 def get_json():
     """
-    Сбор ссылок на карочки товаров в TXT
+    Функция собирает product_id товаров,
+    которые в данный момент доступны на сайте.
+
+    Далее отправляет GET-запросы для получения данных
+    и сохраняет их в json файл.
     """
     data = {}
     count = 1
@@ -47,7 +51,11 @@ def get_json():
 
 
 def get_data():
-    """Сбор необходимых данных"""
+    """
+    Фукнция собирает требуемые данные из data.json.
+    Значения 'albom' и 'product_info' забирает из страницы сайта,
+    т.к. их нет в json.
+    """
     with open('data.json') as file:
         data = json.load(file)
 
@@ -94,7 +102,7 @@ def get_data():
                 product_info = div_info.text.strip()
             except Exception as error:
                 print(error)
-                product_info = "Нет данных"
+                product_info = "Нет описания"
 
         except Exception as error:
             print(error)
@@ -132,7 +140,9 @@ def get_data():
 
 
 def save_csv(data_dict):
-    """Сохранение итогового файла в формате csv"""
+    """
+    Функция сохраненяет итоговый файл в формате csv.
+    """
     with open(
         'data_final.csv', 'w', newline='', encoding='utf-8-sig'
     ) as file:
