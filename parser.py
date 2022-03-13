@@ -139,7 +139,7 @@ def get_data():
         print(f'{count}: {key} is done!')
         count += 1
 
-    print("ГОТОВО - НУЖНЫ ДАННЫЕ СОБРАНЫ В data_dict!")
+    print("ГОТОВО - НУЖНЫЕ ДАННЫЕ СОБРАНЫ В data_dict!")
     return data_dict
 
 
