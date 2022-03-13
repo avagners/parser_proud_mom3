@@ -11,21 +11,28 @@ user_agent = ua.random
 headers = {'user-agent': user_agent}
 
 
-def get_data_json():
+def get_json():
     """
     Сбор ссылок на карочки товаров в TXT
     """
     data = {}
-    for i in range(1, 17, 1):
-        url = f'https://www.proudmom.ru/collection/brands?page={i}'
+    count = 1
+    while True:
+        url = f'https://www.proudmom.ru/collection/brands?page={count}'
         req = requests.get(url=url, headers=headers)
+        req.raise_for_status()
+
         result = req.content
 
         soup = BeautifulSoup(result, 'lxml')
         cards = soup.find_all("form", action="/cart_items")
 
-        print(url)
+        print(count, url)
         print(f'Кол-во карточек: {len(cards)}')
+        if len(cards) == 0:
+            break
+
+        count += 1
 
         for card in cards:
             product_id = card.get('data-product-id')
@@ -38,10 +45,8 @@ def get_data_json():
         json.dump(data, file, indent=4, ensure_ascii=False)
 
 
-def get_data_and_sav_csv():
-    """
-    Сбор необходимых данных и сохранение их в CSV
-    """
+def get_data():
+    """Сбор необходимых данных"""
     with open('data.json') as file:
         data = json.load(file)
 
@@ -119,66 +124,70 @@ def get_data_and_sav_csv():
         }
 
         data_dict.append(data_temp)
-
-        with open(
-            'data_final.csv', 'w', newline='', encoding='utf-8-sig'
-        ) as file:
-            writer = csv.writer(file, delimiter=';')
-            writer.writerow([
-                'Рубрика',
-                'Подрубрика',
-                'Альбом',
-                'Артикул',
-                'Название',
-                'Вес',
-                'Цена',
-                'Цена2',
-                'Изображения',
-                'Описание',
-                'Стоимость доставки',
-                'Ссылка на товар',
-                'Seo заголовок',
-                'Seo описание',
-                'Ключевые слова',
-                'Показ',
-                'Порядок отображения',
-                'Ярлык',
-                'Ряд по количеству',
-                'Параметр: Размер',
-                'Ряд3: Количество'
-            ])
-            for item in data_dict:
-                writer.writerow([
-                    item['Рубрика'],
-                    item['Подрубрика'],
-                    item['Альбом'],
-                    item['Артикул'],
-                    item['Наименование'],
-                    item['Вес'],
-                    item['Цена'],
-                    item['Цена2'],
-                    item['Изображения'],
-                    item['Описание'],
-                    item['Стоимость доставки'],
-                    item['Ссылка на товар'],
-                    item['Seo заголовок'],
-                    item['Seo описание'],
-                    item['Ключевые слова'],
-                    item['Показ'],
-                    item['Порядок отображения'],
-                    item['Ярлык'],
-                    item['Ряд по количеству'],
-                    item['Параметр: Размер'],
-                    item['Ряд3: Количество']
-                ])
-
         print(f'{count}: {key} is done!')
         count += 1
 
+    return data_dict
+
+
+def save_csv(data_dict):
+    """Сохранение итогового файла в формате csv"""
+    with open(
+        'data_final.csv', 'w', newline='', encoding='utf-8-sig'
+    ) as file:
+        writer = csv.writer(file, delimiter=';')
+        writer.writerow([
+            'Рубрика',
+            'Подрубрика',
+            'Альбом',
+            'Артикул',
+            'Название',
+            'Вес',
+            'Цена',
+            'Цена2',
+            'Изображения',
+            'Описание',
+            'Стоимость доставки',
+            'Ссылка на товар',
+            'Seo заголовок',
+            'Seo описание',
+            'Ключевые слова',
+            'Показ',
+            'Порядок отображения',
+            'Ярлык',
+            'Ряд по количеству',
+            'Параметр: Размер',
+            'Ряд3: Количество'
+        ])
+        for item in data_dict:
+            writer.writerow([
+                item['Рубрика'],
+                item['Подрубрика'],
+                item['Альбом'],
+                item['Артикул'],
+                item['Наименование'],
+                item['Вес'],
+                item['Цена'],
+                item['Цена2'],
+                item['Изображения'],
+                item['Описание'],
+                item['Стоимость доставки'],
+                item['Ссылка на товар'],
+                item['Seo заголовок'],
+                item['Seo описание'],
+                item['Ключевые слова'],
+                item['Показ'],
+                item['Порядок отображения'],
+                item['Ярлык'],
+                item['Ряд по количеству'],
+                item['Параметр: Размер'],
+                item['Ряд3: Количество']
+            ])
+
 
 def main():
-    get_data_json()
-    get_data_and_sav_csv()
+    get_json()
+    save_csv(get_data())
 
 
 if __name__ == '__main__':
