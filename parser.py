@@ -19,6 +19,7 @@ def get_json():
     Далее отправляет GET-запросы для получения данных
     и сохраняет их в json файл.
     """
+    print("Начался процесс сбора данных с сайта в json...")
     data = {}
     count = 1
     while True:
@@ -48,6 +49,7 @@ def get_json():
 
     with open('data.json', 'w') as file:
         json.dump(data, file, indent=4, ensure_ascii=False)
+    print("ГОТОВО - ДАННЫЕ СОХРАНЕНЫ В data.json")
 
 
 def get_data():
@@ -56,6 +58,7 @@ def get_data():
     Значения 'albom' и 'product_info' забирает из страницы сайта,
     т.к. их нет в json.
     """
+    print("Начался процесс извлечения нужных данных...")
     with open('data.json') as file:
         data = json.load(file)
 
@@ -136,6 +139,7 @@ def get_data():
         print(f'{count}: {key} is done!')
         count += 1
 
+    print("ГОТОВО - НУЖНЫ ДАННЫЕ СОБРАНЫ В data_dict!")
     return data_dict
 
 
@@ -143,6 +147,7 @@ def save_csv(data_dict):
     """
     Функция сохраненяет итоговый файл в формате csv.
     """
+    print("Начался процесс сохранения данных в csv...")
     with open(
         'data_final.csv', 'w', newline='', encoding='utf-8-sig'
     ) as file:
@@ -194,6 +199,7 @@ def save_csv(data_dict):
                 item['Параметр: Размер'],
                 item['Ряд3: Количество']
             ])
+    print("ГОТОВО - ДАННЫ СОХРАНЕНЫ В data_final.csv!")
 
 
 def main():
