@@ -199,7 +199,7 @@ def save_csv(data_dict):
                 item['Параметр: Размер'],
                 item['Ряд3: Количество']
             ])
-    print("ГОТОВО - ДАННЫ СОХРАНЕНЫ В data_final.csv!")
+    print("ГОТОВО - ДАННЫE СОХРАНЕНЫ В data_final.csv!")
 
 
 def main():
