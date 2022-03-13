@@ -29,6 +29,7 @@ def get_json():
 
         print(count, url)
         print(f'Кол-во карточек: {len(cards)}')
+
         if len(cards) == 0:
             break
 
